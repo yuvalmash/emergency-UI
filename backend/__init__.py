@@ -1,5 +1,10 @@
-# export FLASK_APP=backend/__init__.py
 from flask import Flask, request
+
+# export FLASK_APP=backend/__init__.py
+
+# Windows: set FLASK_APP=./backend/__init__.py
+# Linux: export FLASK_APP=./backend/__init__.py
+
 
 app = Flask(__name__)
 
@@ -16,6 +21,11 @@ def hello_world():
 @app.route('/test/get_length/<my_var>')
 def length(my_var):
     return f'{len(my_var)}'
+
+
+@app.route('/test/get_length/')
+def return_0():
+    return f'0'
 
 
 @app.route('/test/show_param/')
