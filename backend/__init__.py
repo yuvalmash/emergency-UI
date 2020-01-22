@@ -58,6 +58,7 @@ def show_sms():
 
 @app.route('/send_sms', methods=['POST'])
 def create_sms():
+    print("hello")
     tel = {
         'tel': request.json['tel']
     }
