@@ -16,10 +16,16 @@
   </head>
   <body>
     <video id="camera-stream" autoplay></video>
+    <canvas id="captureCanvas" width="320" height="240"></canvas>
     <button id="flip-btn">
       Flip Camera
     </button>
+    <button id="addPhoto">Add Photo</button>
+    <button id="postToServer">Send</button>
+    <canvas id="myCanvas"></canvas>
+    <script src="./js/location.js"></script>
     <script src="./js/camera.js"></script>
+    <script src="./js/post.js"></script>
 
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
@@ -36,6 +42,5 @@
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/location.js"></script>
   </body>
 </html>
