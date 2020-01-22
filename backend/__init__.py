@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from twilio.rest import Client
 import requests
 
@@ -40,8 +40,8 @@ def send_sms(message, receiver_phone):
 
 
 app = Flask(__name__)
-
 tels = []
+incidents = []
 
 
 def getApp():
@@ -50,7 +50,7 @@ def getApp():
 
 @app.route('/')
 def hello_world():
-    send_sms("fuck yuval", "whatsapp:+972546488261")
+    send_sms("fuck yuval", "+972546488261")
     return "Stayin' Alive API"
 
 
@@ -61,11 +61,33 @@ def show_sms():
 
 @app.route('/send_sms', methods=['POST'])
 def create_sms():
+    print("hello")
     tel = {
         'tel': request.json['tel']
     }
     tels.append(tel)
     return jsonify({'tel': tel}), 201
+
+
+@app.route('/send_event', methods=['POST'])
+def send_event():
+    print("got into post request")
+    incident = {
+        'lat': request.json['lat'],
+        'lon': request.json['lon']
+    }
+    incidents.append(incident)
+    return jsonify({'incident': incident}), 201
+
+
+@app.route('/new_event', methods=['POST'])
+def create_incident():
+    incident = {
+        'lat': request.json['lat'],
+        'lon': request.json['lon']
+    }
+    incidents.append(incident)
+    return jsonify(incident)
 
 
 @app.route('/test/get_length/<my_var>')
