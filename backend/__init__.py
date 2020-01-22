@@ -8,6 +8,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+tels = []
+
 
 def getApp():
     return app
@@ -16,6 +18,15 @@ def getApp():
 @app.route('/')
 def hello_world():
     return "Stayin' Alive API"
+
+
+@app.route('/send_sms', methods=['POST'])
+def create_sms():
+    tel = {
+        'tel': request.json['tel'],
+    }
+    tels.append(tel)
+    return jsonify({'tel': tel}), 201
 
 
 @app.route('/test/get_length/<my_var>')
