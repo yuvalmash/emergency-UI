@@ -51,6 +51,11 @@ def hello_world():
     return "Stayin' Alive API"
 
 
+@app.route('/get_sms')
+def show_sms():
+    return jsonify(tels)
+
+
 @app.route('/send_sms', methods=['POST'])
 def create_sms():
     tel = {
