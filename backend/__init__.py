@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 # export FLASK_APP=backend/__init__.py
 
@@ -23,7 +23,7 @@ def hello_world():
 @app.route('/send_sms', methods=['POST'])
 def create_sms():
     tel = {
-        'tel': request.json['tel'],
+        'tel': request.json['tel']
     }
     tels.append(tel)
     return jsonify({'tel': tel}), 201
