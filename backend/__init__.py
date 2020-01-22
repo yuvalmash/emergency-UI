@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 from twilio.rest import Client
+import requests
 
 ACCOUNT_SID = 'AC5f1460f752c9e622a921b909e70dba6e'
 AUTH_TOKEN = 'd7c0cbf61857b3cc1ed640febfb22dbf'
 SENDER_PHONE = 'whatsapp:+14155238886'
+STATION_LOC = [32.009719,34.7631017]
+GOOGLE_KEY = 'AIzaSyBgPmnoaTooWJdgcHor2jUeCMFRv40ekkA'
 
 
 def send_sms(message, receiver_phone):
@@ -68,6 +71,21 @@ def create_sms():
 @app.route('/test/get_length/<my_var>')
 def length(my_var):
     return f'{len(my_var)}'
+
+
+@app.route('/time_to_arrival')
+def get_time_to_arrival(reporter_lat = 32.051195,reporter_lon = 34.755205):
+    url = f'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={str(STATION_LOC[0])},{str(STATION_LOC[1])}&destinations={str(reporter_lat)},{str(reporter_lon)}&key={GOOGLE_KEY}&mode=driving&traffic_model=best_guess&departure_time=now'
+    r = requests.get(url)
+    if r.status_code == 200:
+        response = r.json()
+        origin_address = response['origin_addresses'][0]
+        dest_address = response['destination_addresses'][0]
+        distance = response['rows'][0]['elements'][0]['distance']['text']
+        time = response['rows'][0]['elements'][0]['duration_in_traffic']['text']
+        return f'<b>Origin address:</b> {origin_address}<br><b>Destination address:</b> {dest_address}<br><b>Distance:</b> {distance}<br><b>Estimated time to arrival:</b> {time}'
+    else:
+        return 'Error retrieving data'
 
 
 @app.route('/test/get_length/')
