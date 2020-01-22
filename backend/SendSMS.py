@@ -17,10 +17,12 @@ def send_sms(message, receiver_phone):
 
         message = client.messages \
             .create(
-            body=message,
-            from_=SENDER_PHONE,
-            to=receiver_phone
-        )
+                body=message,
+                from_=SENDER_PHONE,
+                to=receiver_phone
+            )
         return message.sid
     except:
         return 'An error ocurred, message was not sent. Please re-send or contact your system administrator.'
+
+# send_sms("fuck yuval", "+972546488261")
