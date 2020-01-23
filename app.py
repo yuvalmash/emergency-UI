@@ -1,5 +1,5 @@
 from secrets import token_urlsafe
-
+import json
 from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
@@ -135,9 +135,11 @@ def show_param():
 
 ########################################################################################################################
 @app.route("/")
-def hello():
-    token = request.args['token']
+def hello(token):
+    data = request.get_json(force=True)
+    # token = request.args['token']
     print(token)
+
     return render_template('./user/index.html')
 
 
@@ -182,7 +184,7 @@ def send_new_event():
     sql.new_call(event['phone_number'], event['category'], event['life_threat'], event['address1'], event['address2'],
                  event['free_text'], event['token'])
     # TODO invoke sms function with token
-    return str(events)
+    return event['token']
 
 
 if __name__ == '__main__':
