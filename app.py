@@ -141,13 +141,14 @@ def hello():
     return render_template('./user/index.html')
 
 
-
-    @app.route('/forces/get_event_data')
-async def get_event_data():
-    token = request.args.get('token')
+@app.route('/forces/get_event_data')
+def get_event_data():
+    token = request.args['token']
+    print(token)
     my_event_data = sql.get_all_from_token(token)
-    return jsonify(my_event_data)
-
+    for key, value in my_event_data.items():
+        print(f'{key}: {value}')
+    return json.dumps(my_event_data)
 
 
 @app.route('/user_response/', methods=['POST'])

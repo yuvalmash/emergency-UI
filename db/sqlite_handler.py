@@ -92,13 +92,13 @@ def update_incident(lat, lon, wind_speed, token):
 
 
 if __name__ == '__main__':
-    create_tables(DATABASE)
-
-    token = token_urlsafe()
-    new_call('+972587030277', 'fire', True, 'Tel Aviv', 'Florentin', 'Some Free Text', token)
-    add_media('Some Image base64 encoded', token)
-    update_incident('32.053016', '34.772589', '15.0', token)
-    print(query(DATABASE, 'SELECT * FROM incidents')[-1])
+    # create_tables(DATABASE)
+    #
+    # token = token_urlsafe()
+    # new_call('+972587030277', 'fire', True, 'Tel Aviv', 'Florentin', 'Some Free Text', token)
+    # add_media('Some Image base64 encoded', token)
+    # update_incident('32.053016', '34.772589', '15.0', token)
+    # print(query(DATABASE, 'SELECT * FROM incidents')[-1])
 
     qry = """SELECT incidents.id, incidents.lat, incidents.lon,
                     incidents.category, incident_user.token, 
@@ -109,7 +109,7 @@ if __name__ == '__main__':
                  JOIN users
                     ON users.id == incident_user.user_id
           """
-    # [print(r) for r in query(DATABASE, qry)]
+    [print(r) for r in query(DATABASE, qry)]
     # for media in get_media('XtZQ40v-qpqYKDAxoToE1tN4ZLo45ATtK6sv4pZnT7s'):
     #     print(media)
-    print(get_all_from_token('lk8wsnVLcnQoJ-YteGrlP7Vo-Yei9bC7HMbu3UYma5g'))
+    print(get_all_from_token('D34hwPv-JOxkBf1ImkEqnBBpS9Oj6bCAnDS9rj9ACMg'))
