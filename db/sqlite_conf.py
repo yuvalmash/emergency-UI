@@ -4,6 +4,7 @@ tables =   ["""
                 id integer PRIMARY KEY AUTOINCREMENT,
                 lat float,
                 lon float,
+                wind_speed float,
                 category text,
                 life_threat bool,
                 address1 text,
@@ -43,6 +44,6 @@ insert_queries = {'incidents': """INSERT INTO incidents (category, life_threat, 
                   'users': "INSERT INTO users (phone_number) VALUES (?)",
                   'incident_user': "INSERT INTO incident_user (incident_id, user_id, token) VALUES (?, ?, ?)"
                   }
-update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=? WHERE id LIKE ?"}
+update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=?, wind_speed=? WHERE id LIKE ?"}
 
 queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE token=?"}

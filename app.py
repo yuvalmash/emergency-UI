@@ -1,18 +1,13 @@
 from secrets import token_urlsafe
-
 from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
 import base64
 from db import sqlite_handler as sql
+import app_cfg
 
-
-ACCOUNT_SID = 'AC5f1460f752c9e622a921b909e70dba6e'
-AUTH_TOKEN = 'd7c0cbf61857b3cc1ed640febfb22dbf'
-SENDER_PHONE = '+972525835074'
 STATION_LOC = [32.009719, 34.7631017]
-GOOGLE_KEY = 'AIzaSyBgPmnoaTooWJdgcHor2jUeCMFRv40ekkA'
-DEFAULT_RECIPIENT = '+972587030277'
+
 
 
 def send_sms(message, receiver_phone):
@@ -23,12 +18,12 @@ def send_sms(message, receiver_phone):
     :return: SMS id if successfully sent, or error message if failed
     """
     try:
-        client = Client(ACCOUNT_SID, AUTH_TOKEN)
+        client = Client(app_cfg.ACCOUNT_SID, app_cfg.AUTH_TOKEN)
 
         message = client.messages \
             .create(
             body=message,
-            from_=SENDER_PHONE,
+            from_=app_cfg.SENDER_PHONE,
             to=receiver_phone
         )
         return message.sid
@@ -106,7 +101,7 @@ def length(my_var):
 
 @app.route('/time_to_arrival')
 def get_time_to_arrival(reporter_lat=32.051195, reporter_lon=34.755205):
-    url = f'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={str(STATION_LOC[0])},{str(STATION_LOC[1])}&destinations={str(reporter_lat)},{str(reporter_lon)}&key={GOOGLE_KEY}&mode=driving&traffic_model=best_guess&departure_time=now'
+    url = f'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={str(STATION_LOC[0])},{str(STATION_LOC[1])}&destinations={str(reporter_lat)},{str(reporter_lon)}&key={app_cfg.GOOGLE_KEY}&mode=driving&traffic_model=best_guess&departure_time=now'
     r = requests.get(url)
     if r.status_code == 200:
         response = r.json()
@@ -148,17 +143,11 @@ def user_response():
     img = content['img']
     lat = content['lat']
     lon = content['lon']
+    wind_speed = content['windSpeed']
     # token = content['token']
-    # sql.update_incident(lat, lon, token)
+    # sql.update_incident(lat, lon, wind_speed, token)
     # sql.add_media(img, token)
-
-    print(img)
-    print(lat)
-    print(lon)
-    img = base64.b64decode(img)
-    with open('img.png', 'wb') as file:
-        file.write(img)
-    return img
+    return 'Thank you!'
 
 
 @app.route('/admin')
@@ -178,10 +167,11 @@ def send_new_event():
              'category': request.form.get('customRadio')}
     events.append(event)
     print('>>>>>>>>', event)
-    # TODO add other data to DB
+
     sql.new_call(event['phone_number'], event['category'], event['life_threat'], event['address1'], event['address2'],
                  event['free_text'], event['token'])
-    # TODO invoke sms function with token
+
+    send_sms(f"{app_cfg.url}:{app_cfg.port}/?token={event['token']}", event['phone_number'])
     return str(events)
 
 

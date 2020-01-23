@@ -64,9 +64,9 @@ def add_media(media, token):
     insert(DATABASE, cfg.insert_queries['media'], [bmedia, incident_id])
 
 
-def update_incident(lat, lon, token):
+def update_incident(lat, lon, wind_speed, token):
     incident_id = query(DATABASE, cfg.queries['id_from_token'], [token])[0][0]
-    insert(DATABASE, cfg.update_queries['incidents'], [lat, lon, incident_id])
+    insert(DATABASE, cfg.update_queries['incidents'], [lat, lon, wind_speed, incident_id])
 
 
 if __name__ == '__main__':
