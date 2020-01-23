@@ -8,7 +8,7 @@ if 'db' in sys.modules.keys():
 else:
     import sqlite_conf as cfg
 db_path = os.path.dirname(cfg.__file__)
-DATABASE = os.path.join(db_path, './stayin_alive.db')
+DATABASE = os.path.join(db_path, 'stayin_alive.db')
 
 
 def insert(database, qry, data=None):
