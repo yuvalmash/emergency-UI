@@ -144,19 +144,20 @@ def hello():
 def forces_home():
     return render_template('./forces/index.html')
 
-
 @app.route('/forces/get_event_data')
-async def get_event_data():
-    token = request.args.get('token')
+def get_event_data():
+    token = request.args['token']
+    print(token)
     my_event_data = sql.get_all_from_token(token)
-    return jsonify(my_event_data)
-
+    for key, value in my_event_data.items():
+        print(f'{key}: {value}')
+    return json.dumps(my_event_data)
 
 
 @app.route('/user_response/', methods=['POST'])
 def user_response():
     content = request.json
-    content['img'] = content['img'].split(',')[1]
+    # content['img'] = content['img'].split(',')[1]
     img = content['img']
     lat = content['lat']
     lon = content['lon']
