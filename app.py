@@ -1,8 +1,5 @@
 from secrets import token_urlsafe
-<<<<<<< HEAD
 import json
-=======
->>>>>>> c4d49b0c8face9a3b6f307fa7fb8ef8d5e1cd81b
 from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
@@ -134,12 +131,17 @@ def show_param():
 
 ########################################################################################################################
 @app.route("/")
-def hello(token):
-    data = request.get_json(force=True)
+def hello():
+    # data = request.get_json(force=True)
     # token = request.args['token']
     print(token)
 
     return render_template('./user/index.html')
+
+
+
+    
+
 
 
 @app.route('/user_response/', methods=['POST'])
@@ -176,7 +178,6 @@ def send_new_event():
 
     sql.new_call(event['phone_number'], event['category'], event['life_threat'], event['address1'], event['address2'],
                  event['free_text'], event['token'])
-=======
 
     send_sms(f"{app_cfg.url}:{app_cfg.port}/?token={event['token']}", event['phone_number'])
     return str(events)
