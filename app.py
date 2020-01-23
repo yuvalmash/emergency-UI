@@ -176,5 +176,5 @@ def send_new_event():
 
 
 if __name__ == '__main__':
-    print(send_sms('fuck yuval', DEFAULT_RECIPIENT))
+    print(send_sms('Hello world!', app_cfg.DEFAULT_RECIPIENT))
     app.run(debug=True)
