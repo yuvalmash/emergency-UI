@@ -168,6 +168,8 @@ def send_new_event():
     event['textarea'] = request.form.get('textarea')
     event['phoneNumber'] = request.form.get('phoneNumber')
     event['category'] = request.form.get('customRadio')
+    #add token
+    #invoke sms function with token
     events.append(event)
     print('>>>>>>>>',event)
     return str(events)
