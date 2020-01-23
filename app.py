@@ -154,7 +154,7 @@ def get_event_data():
 @app.route('/user_response/', methods=['POST'])
 def user_response():
     content = request.json
-    content['img'] = content['img'].split(',')[1]
+    # content['img'] = content['img'].split(',')[1]
     img = content['img']
     lat = content['lat']
     lon = content['lon']
