@@ -1,5 +1,5 @@
 
-fetch(`/forces/get_event_data?token=${token}`)
+fetch(`/forces/get_event_data?token=${"Yt-03UGyIbGAOeeOVRhYw-KS0AQZmi6ZVIVvN_G3aMR"}`)
     .then((r) => {
         return r.json();
     })
