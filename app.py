@@ -142,7 +142,7 @@ def hello():
 
 @app.route('/forces/home')
 def forces_home():
-    return render_template('./forces/index.html')
+    return render_template('./forces/index.html', GOOGLE_API_KEY=app_cfg.GOOGLE_KEY)
 
 @app.route('/forces/get_event_data')
 def get_event_data():
