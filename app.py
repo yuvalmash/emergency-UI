@@ -134,8 +134,9 @@ def show_param():
 
 
 ########################################################################################################################
-@app.route("/<token>")
-def hello(token):
+@app.route("/")
+def hello():
+    token = request.args['token']
     print(token)
     return render_template('./user/index.html')
 
@@ -164,19 +165,22 @@ def user_response():
 def admin_form():
     return render_template('./admin/index.html')
 
+
 events = []
+
 
 @app.route('/send_new_event', methods=['POST'])
 def send_new_event():
     global events
-    event = {'token': token_urlsafe(), 'isLifeThreat': request.form.get('isLifeThreat'),
-             'address': request.form.get('address'), 'address2': request.form.get('address2'),
-             'textarea': request.form.get('textarea'), 'phoneNumber': request.form.get('phoneNumber'),
+    event = {'token': token_urlsafe(), 'life_threat': request.form.get('isLifeThreat'),
+             'address1': request.form.get('address'), 'address2': request.form.get('address2'),
+             'free_text': request.form.get('textarea'), 'phone_number': request.form.get('phoneNumber'),
              'category': request.form.get('customRadio')}
     events.append(event)
     print('>>>>>>>>', event)
     # TODO add other data to DB
-    sql.new_call(event['phoneNumber'], event['category'], event['token'])
+    sql.new_call(event['phone_number'], event['category'], event['threat'], event['address1'], event['address2'],
+                 event['free_text'], event['token'])
     # TODO invoke sms function with token
     return str(events)
 

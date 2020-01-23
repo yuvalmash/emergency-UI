@@ -1,9 +1,13 @@
 tables =   ["""
             CREATE TABLE IF NOT EXISTS Incidents (
                 id integer PRIMARY KEY AUTOINCREMENT,
-                lat float NOT NULL,
-                lon float NOT NULL,
+                lat float,
+                lon float,
                 category text,
+                life_threat bool,
+                address1 text,
+                address2 text,
+                free_text text,
                 start_time datetime default current_timestamp
             );
             """,
@@ -32,7 +36,8 @@ tables =   ["""
             );
             """
             ]
-insert_queries = {'incidents': "INSERT INTO incidents (lat, lon, category) VALUES (?, ?, ?)",
+insert_queries = {'incidents': """INSERT INTO incidents (category, life_threat, address1, address2, free_text)
+                                  VALUES (?, ?, ?, ?, ?)""",
                   'media': "INSERT INTO media (data, incident_id) VALUES (?, ?)",
                   'users': "INSERT INTO users (phone_number) VALUES (?)",
                   'incident_user': "INSERT INTO incident_user (incident_id, user_id, token) VALUES (?, ?, ?)"
