@@ -1,13 +1,14 @@
 import sqlite3
+import os
 from secrets import token_urlsafe
 import base64
 import sys
 if 'db' in sys.modules.keys():
     from . import sqlite_conf as cfg
-    DATABASE = './db/stayin_alive.db'
 else:
     import sqlite_conf as cfg
-    DATABASE = './stayin_alive.db'
+db_path = os.path.dirname(cfg.__file__)
+DATABASE = os.path.join(db_path, './stayin_alive.db')
 
 
 def insert(database, qry, data=None):
@@ -51,6 +52,7 @@ def create_tables(database):
 
 
 def new_call(phone_number, category, life_threat, address1, address2, free_text, token):
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', DATABASE)
     user_id = insert(DATABASE, cfg.insert_queries['users'], [phone_number])
     incident_id = insert(DATABASE, cfg.insert_queries['incidents'], [category, life_threat, address1, address2, free_text])
     query(DATABASE, cfg.insert_queries['incident_user'], [incident_id, user_id, token])

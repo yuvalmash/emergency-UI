@@ -1,3 +1,4 @@
+DATABASE = './stayin_alive.db'
 tables =   ["""
             CREATE TABLE IF NOT EXISTS Incidents (
                 id integer PRIMARY KEY AUTOINCREMENT,
