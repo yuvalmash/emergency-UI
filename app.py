@@ -200,7 +200,7 @@ def send_new_event():
                  event['free_text'], event['token'])
 
     send_sms(f"{app_cfg.url}:{app_cfg.port}/?token={event['token']}", event['phone_number'])
-    return str(events)
+    return '<a href=' + f"http://{app_cfg.url}:{app_cfg.port}/?token={event['token']}" + '>' + f"http://{app_cfg.url}:{app_cfg.port}/?token={event['token']}" + '</a>'
 
 
 if __name__ == '__main__':
