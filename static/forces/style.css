@@ -1,0 +1,31 @@
+table, td, th {
+    border: solid 1px;
+    border-collapse: collapse;
+}
+
+h1 {
+    text-align: center
+}
+
+#timestm {
+    position: relative;
+    width: 100%;
+    float: above;
+    height: 100%;
+    background-color: #e3fdfd;
+    text-align: center;
+    font-size: 30px
+}
+
+#middlepane {
+    width: 45%;
+    height: 100%;
+    background-color: royalblue;
+    margin-left: 25%;
+}
+
+.map {
+    position: relative;
+    margin: auto;
+    width: 25%;
+}

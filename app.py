@@ -140,6 +140,9 @@ def hello():
     # print(token)
     return render_template('./user/index.html')
 
+@app.route('/forces/home')
+def forces_home():
+    return render_template('./forces/index.html')
 
 @app.route('/forces/get_event_data')
 def get_event_data():
