@@ -149,15 +149,15 @@ def get_event_data():
     token = request.args['token']
     print(token)
     my_event_data = sql.get_all_from_token(token)
-    html = ''
-    for key, value in my_event_data.items():
-        if key != 'medias':
-            html += f'<div>{key}: {value}</div><br>'
-        print(f'{key}: {value}')
-    html += '<div>'
-    for media in my_event_data['medias']:
-        html += f'<img src="{media}" />'
-    html += '</div>'
+    # html = ''
+    # for key, value in my_event_data.items():
+    #     # if key != 'medias':
+    #     #     html += f'<div>{key}: {value}</div><br>'
+    #     print(f'{key}: {value}')
+    # html += '<div>'
+    # for media in my_event_data['medias']:
+    #     html += f'<img src="{media}" />'
+    # html += '</div>'
     return json.dumps(my_event_data)
     # return html
 
@@ -187,7 +187,9 @@ events = []
 @app.route('/send_new_event', methods=['POST'])
 def send_new_event():
     global events
-    event = {'token': token_urlsafe(), 'life_threat': request.form.get('isLifeThreat'),
+    # token = token_urlsafe()
+    token = 'Yt-03UGyIbGAOeeOVRhYw-KS0AQZmi6ZVIVvN_G3aMR'
+    event = {'token': token, 'life_threat': request.form.get('isLifeThreat'),
              'address1': request.form.get('address'), 'address2': request.form.get('address2'),
              'free_text': request.form.get('textarea'), 'phone_number': request.form.get('phoneNumber'),
              'category': request.form.get('customRadio')}
