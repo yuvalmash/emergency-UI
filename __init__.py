@@ -151,8 +151,12 @@ def user_response():
         file.write(img)
     return img
 
-events = []
 
+@app.route('/admin')
+def admin_form():
+    return render_template('./admin/index.html')
+
+events = []
 
 @app.route('/send_new_event', methods=['POST'])
 def send_new_event():
@@ -165,6 +169,7 @@ def send_new_event():
     event['phoneNumber'] = request.form.get('phoneNumber')
     event['category'] = request.form.get('customRadio')
     events.append(event)
+    print('>>>>>>>>',event)
     return str(events)
 
 
