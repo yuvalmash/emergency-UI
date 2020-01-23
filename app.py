@@ -142,7 +142,11 @@ def hello():
 
 
 
-    
+    @app.route('/forces/get_event_data')
+async def get_event_data():
+    token = request.args.get('token')
+    my_event_data = sql.get_all_from_token(token)
+    return jsonify(my_event_data)
 
 
 
