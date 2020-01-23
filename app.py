@@ -1,7 +1,11 @@
+from secrets import token_urlsafe
+
 from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
 import base64
+from db import sqlite_handler as sql
+
 
 ACCOUNT_SID = 'AC5f1460f752c9e622a921b909e70dba6e'
 AUTH_TOKEN = 'd7c0cbf61857b3cc1ed640febfb22dbf'
@@ -35,11 +39,11 @@ def send_sms(message, receiver_phone):
 # send_sms("fuck yuval", "+972546488261")
 
 
-# export FLASK_APP=backend/__init__.py
-# flask run
 
-# Windows: set FLASK_APP=./backend/__init__.py
-# Linux: export FLASK_APP=./backend/__init__.py
+
+# Windows: set FLASK_APP=./backend/app.py
+# Linux: export FLASK_APP=./backend/app.py
+# flask run
 
 
 # app = Flask(__name__, static_folder='../../frontend/', template_folder='../../frontend/')
@@ -143,6 +147,10 @@ def user_response():
     img = content['img']
     lat = content['lat']
     lon = content['lon']
+    # token = content['token']
+    # sql.update_incident(lat, lon, token)
+    # sql.add_media(img, token)
+
     print(img)
     print(lat)
     print(lon)
@@ -161,17 +169,15 @@ events = []
 @app.route('/send_new_event', methods=['POST'])
 def send_new_event():
     global events
-    event = {}
-    event['isLifeThreat'] = request.form.get('isLifeThreat')
-    event['address'] = request.form.get('address')
-    event['address2'] = request.form.get('address2')
-    event['textarea'] = request.form.get('textarea')
-    event['phoneNumber'] = request.form.get('phoneNumber')
-    event['category'] = request.form.get('customRadio')
-    #add token
-    #invoke sms function with token
+    event = {'token': token_urlsafe(), 'isLifeThreat': request.form.get('isLifeThreat'),
+             'address': request.form.get('address'), 'address2': request.form.get('address2'),
+             'textarea': request.form.get('textarea'), 'phoneNumber': request.form.get('phoneNumber'),
+             'category': request.form.get('customRadio')}
     events.append(event)
-    print('>>>>>>>>',event)
+    print('>>>>>>>>', event)
+    # TODO add other data to DB
+    sql.new_call(event['phoneNumber'], event['category'], event['token'])
+    # TODO invoke sms function with token
     return str(events)
 
 

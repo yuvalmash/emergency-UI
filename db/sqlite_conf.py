@@ -11,7 +11,7 @@ tables =   ["""
             CREATE TABLE IF NOT EXISTS Media (
                 id integer PRIMARY KEY AUTOINCREMENT,
                 incident_id integer,
-                path text NOT NULL,
+                data blob NOT NULL,
                 FOREIGN KEY (incident_id) REFERENCES incidents (id)
             );
             """,
@@ -33,7 +33,7 @@ tables =   ["""
             """
             ]
 insert_queries = {'incidents': "INSERT INTO incidents (lat, lon, category) VALUES (?, ?, ?)",
-                  'media': "INSERT INTO media (path, incident_id) VALUES (?, ?)",
+                  'media': "INSERT INTO media (data, incident_id) VALUES (?, ?)",
                   'users': "INSERT INTO users (phone_number) VALUES (?)",
                   'incident_user': "INSERT INTO incident_user (incident_id, user_id, token) VALUES (?, ?, ?)"
                   }
