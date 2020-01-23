@@ -153,6 +153,22 @@ def user_response():
     plt.imread('img.png')
     return img
 
+events = []
+
+
+@app.route('/send_new_event', methods=['POST'])
+def send_new_event():
+    global events
+    event = {}
+    event['isLifeThreat'] = request.form.get('isLifeThreat')
+    event['address'] = request.form.get('address')
+    event['address2'] = request.form.get('address2')
+    event['textarea'] = request.form.get('textarea')
+    event['phoneNumber'] = request.form.get('phoneNumber')
+    event['category'] = request.form.get('customRadio')
+    events.append(event)
+    return str(events)
+
 
 if __name__ == '__main__':
     print(send_sms('fuck yuval', DEFAULT_RECIPIENT))
