@@ -1,4 +1,4 @@
 # from .sqlite_conf import *
-# from .sqlite_handler import *
-#
-# create_tables(DATABASE)
+from . import sqlite_handler
+
+sqlite_handler.create_tables(sqlite_handler.DATABASE)
