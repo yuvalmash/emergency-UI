@@ -140,9 +140,12 @@ def hello():
     # print(token)
     return render_template('./user/index.html')
 
+@app.route('/forces/home')
+def forces_home():
+    return render_template('./forces/index.html')
 
 
-    @app.route('/forces/get_event_data')
+@app.route('/forces/get_event_data')
 async def get_event_data():
     token = request.args.get('token')
     my_event_data = sql.get_all_from_token(token)
