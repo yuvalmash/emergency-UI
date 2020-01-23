@@ -1,5 +1,7 @@
 const user_response = {};
 
+fetch("/").then(data => console.log(data));
+
 const geo = navigator.geolocation;
 
 if (navigator.geolocation) {
