@@ -26,7 +26,7 @@ tables =   ["""
                 id integer PRIMARY KEY AUTOINCREMENT,
                 incident_id integer NOT NULL,
                 user_id integer NOT NULL,
-                key text NOT NULL,
+                token text NOT NULL,
                 FOREIGN KEY (incident_id) REFERENCES incidents (id),
                 FOREIGN KEY (user_id) REFERENCES users (id)
             );
@@ -35,8 +35,8 @@ tables =   ["""
 insert_queries = {'incidents': "INSERT INTO incidents (lat, lon, category) VALUES (?, ?, ?)",
                   'media': "INSERT INTO media (path, incident_id) VALUES (?, ?)",
                   'users': "INSERT INTO users (phone_number) VALUES (?)",
-                  'incident_user': "INSERT INTO incident_user (incident_id, user_id, key) VALUES (?, ?, ?)"
+                  'incident_user': "INSERT INTO incident_user (incident_id, user_id, token) VALUES (?, ?, ?)"
                   }
-update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=?, category=? WHERE id LIKE ?"}
+update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=? WHERE id LIKE ?"}
 
-queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE key=?"}
+queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE token=?"}
