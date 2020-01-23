@@ -1,5 +1,4 @@
-const geoData = {};
-const mediaData = {};
+    const user_response = {};
 
 const geo = navigator.geolocation;
 
@@ -8,10 +7,10 @@ if (navigator.geolocation) {
 }
 
 function logPosition(position) {
-  geoData.lat = position.coords.latitude;
-  geoData.lon = position.coords.longitude;
+  user_response.lat = position.coords.latitude;
+  user_response.lon = position.coords.longitude;
   console.log(position.coords);
-  console.log(">>>>", geoData);
+  console.log(">>>>", user_response);
 }
 
 // camera stream video element
@@ -66,14 +65,21 @@ addPhoto.addEventListener("click", function() {
   ctx.drawImage(videoElm, 0, 0, captureCanvas.width, captureCanvas.height);
   img.src = captureCanvas.toDataURL("image/png");
   img.width = 240;
-  console.log(img);
-  mediaData.img = img;
+//  console.log('XXXXXXXXXX',img.src);
+  user_response.img = img.src;
   captureCanvas.appendChild(img);
 });
 
 const postToServer = document.querySelector("#postToServer");
 
 postToServer.addEventListener("click", function() {
-  console.log(geoData);
-  console.log(mediaData);
+  console.log(user_response);
+  fetch('/user_response/',
+  {
+    method: 'POST',
+    headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(user_response)});
 });

@@ -37,3 +37,6 @@ insert_queries = {'incidents': "INSERT INTO incidents (lat, lon, category) VALUE
                   'users': "INSERT INTO users (phone_number) VALUES (?)",
                   'incident_user': "INSERT INTO incident_user (incident_id, user_id, key) VALUES (?, ?, ?)"
                   }
+update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=?, category=? WHERE id LIKE ?"}
+
+queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE key=?"}

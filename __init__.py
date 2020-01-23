@@ -1,12 +1,14 @@
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
+import base64
 
 ACCOUNT_SID = 'AC5f1460f752c9e622a921b909e70dba6e'
 AUTH_TOKEN = 'd7c0cbf61857b3cc1ed640febfb22dbf'
-SENDER_PHONE = 'whatsapp:+14155238886'
-STATION_LOC = [32.009719,34.7631017]
+SENDER_PHONE = '+972525835074'
+STATION_LOC = [32.009719, 34.7631017]
 GOOGLE_KEY = 'AIzaSyBgPmnoaTooWJdgcHor2jUeCMFRv40ekkA'
+DEFAULT_RECIPIENT = '+972587030277'
 
 
 def send_sms(message, receiver_phone):
@@ -21,13 +23,14 @@ def send_sms(message, receiver_phone):
 
         message = client.messages \
             .create(
-                body=message,
-                from_=SENDER_PHONE,
-                to=receiver_phone
-            )
+            body=message,
+            from_=SENDER_PHONE,
+            to=receiver_phone
+        )
         return message.sid
     except:
         return 'An error ocurred, message was not sent. Please re-send or contact your system administrator.'
+
 
 # send_sms("fuck yuval", "+972546488261")
 
@@ -39,6 +42,7 @@ def send_sms(message, receiver_phone):
 # Linux: export FLASK_APP=./backend/__init__.py
 
 
+# app = Flask(__name__, static_folder='../../frontend/', template_folder='../../frontend/')
 app = Flask(__name__)
 tels = []
 incidents = []
@@ -48,10 +52,11 @@ def getApp():
     return app
 
 
-@app.route('/')
-def hello_world():
-    send_sms("fuck yuval", "+972546488261")
-    return "Stayin' Alive API"
+#
+# @app.route('/')
+# def hello_world():
+#     print(send_sms("hello world", DEFAULT_RECIPIENT))
+#     return "Stayin' Alive API"
 
 
 @app.route('/get_sms')
@@ -96,7 +101,7 @@ def length(my_var):
 
 
 @app.route('/time_to_arrival')
-def get_time_to_arrival(reporter_lat = 32.051195,reporter_lon = 34.755205):
+def get_time_to_arrival(reporter_lat=32.051195, reporter_lon=34.755205):
     url = f'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={str(STATION_LOC[0])},{str(STATION_LOC[1])}&destinations={str(reporter_lat)},{str(reporter_lon)}&key={GOOGLE_KEY}&mode=driving&traffic_model=best_guess&departure_time=now'
     r = requests.get(url)
     if r.status_code == 200:
@@ -124,5 +129,31 @@ def show_param():
     return ret
 
 
+########################################################################################################################
+@app.route("/")
+def hello():
+    return render_template('./user/index.html')
+
+
+import matplotlib.pyplot as plt
+
+
+@app.route('/user_response/', methods=['POST'])
+def user_response():
+    content = request.json
+    content['img'] = content['img'].split(',')[1]
+    img = content['img']
+    lat = content['lat']
+    lon = content['lon']
+    print(img)
+    img = base64.b64decode(img)
+    print(img)
+    with open('img.png', 'wb') as file:
+        file.write(img)
+    plt.imread('img.png')
+    return img
+
+
 if __name__ == '__main__':
+    print(send_sms('fuck yuval', DEFAULT_RECIPIENT))
     app.run(debug=True)

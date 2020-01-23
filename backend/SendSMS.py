@@ -23,6 +23,7 @@ def send_sms(message, receiver_phone):
             )
         return message.sid
     except:
-        return 'An error ocurred, message was not sent. Please re-send or contact your system administrator.'
+        return 'An error occurred, message was not sent. Please re-send or contact your system administrator.'
 
-# send_sms("fuck yuval", "+972546488261")
+
+print(send_sms("SEND_SMS", "+972587030277"))
