@@ -149,15 +149,15 @@ def get_event_data():
     token = request.args['token']
     print(token)
     my_event_data = sql.get_all_from_token(token)
-    html = ''
-    for key, value in my_event_data.items():
-        if key != 'medias':
-            html += f'<div>{key}: {value}</div><br>'
-        print(f'{key}: {value}')
-    html += '<div>'
-    for media in my_event_data['medias']:
-        html += f'<img src="{media}" />'
-    html += '</div>'
+    # html = ''
+    # for key, value in my_event_data.items():
+    #     # if key != 'medias':
+    #     #     html += f'<div>{key}: {value}</div><br>'
+    #     print(f'{key}: {value}')
+    # html += '<div>'
+    # for media in my_event_data['medias']:
+    #     html += f'<img src="{media}" />'
+    # html += '</div>'
     return json.dumps(my_event_data)
     # return html
 
