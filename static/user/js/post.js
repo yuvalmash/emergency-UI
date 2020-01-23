@@ -1,4 +1,7 @@
 const user_response = {};
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+user_response.token = urlParams.get('token')
 
 const geo = navigator.geolocation;
 
