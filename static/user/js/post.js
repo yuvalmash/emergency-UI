@@ -3,6 +3,8 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 user_response.token = urlParams.get('token')
 
+fetch("/").then(data => console.log(data));
+
 const geo = navigator.geolocation;
 
 if (navigator.geolocation) {
