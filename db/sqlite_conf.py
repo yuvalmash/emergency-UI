@@ -11,7 +11,7 @@ tables =   ["""
             CREATE TABLE IF NOT EXISTS Media (
                 id integer PRIMARY KEY AUTOINCREMENT,
                 incident_id integer,
-                data blob NOT NULL,
+                data text NOT NULL,
                 FOREIGN KEY (incident_id) REFERENCES incidents (id)
             );
             """,
