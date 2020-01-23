@@ -130,12 +130,10 @@ def show_param():
 
 
 ########################################################################################################################
-@app.route("/")
-def hello():
+@app.route("/<token>")
+def hello(token):
+    print(token)
     return render_template('./user/index.html')
-
-
-import matplotlib.pyplot as plt
 
 
 @app.route('/user_response/', methods=['POST'])
@@ -146,11 +144,11 @@ def user_response():
     lat = content['lat']
     lon = content['lon']
     print(img)
+    print(lat)
+    print(lon)
     img = base64.b64decode(img)
-    print(img)
     with open('img.png', 'wb') as file:
         file.write(img)
-    plt.imread('img.png')
     return img
 
 events = []

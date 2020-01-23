@@ -45,39 +45,36 @@ def create_tables(database):
         create_table(database, table)
 
 
+def new_call(phone_number, category):
+    user_id = insert(DATABASE, cfg.insert_queries['users'], [phone_number])
+    incident_id = insert(DATABASE, cfg.insert_queries['incidents'], ['NULL', 'NULL', category])
+    token = token_urlsafe()
+    query(DATABASE, cfg.insert_queries['incident_user'], [incident_id, user_id, token])
+    return token
+
+
+def add_media(media, token):
+    incident_id = query(DATABASE, cfg.queries['id_from_token'], [token])[0][0]
+    insert(DATABASE, cfg.insert_queries['media'], [media, incident_id])
+
+
+def update_incident(lat, lon, token):
+    incident_id = query(DATABASE, cfg.queries['id_from_token'], [token])[0][0]
+    insert(DATABASE, cfg.update_queries['incidents'], [lat, lon, incident_id])
+
+
 if __name__ == '__main__':
     create_tables(DATABASE)
 
-    user_id = insert(DATABASE, cfg.insert_queries['users'], ['+972587030277'])
-    incident_id = insert(DATABASE, cfg.insert_queries['incidents'], ['NULL', 'NULL', 'fire'])
-    media_id = insert(DATABASE, cfg.insert_queries['media'], ['./backend/streetview/gsv_0.jpg', 1])
-
-    token = token_urlsafe()
-    iu_id = query(DATABASE, cfg.insert_queries['incident_user'], [incident_id, user_id, token])
-
-    print(query(DATABASE, 'SELECT * FROM incidents')[-1])
-    incident_id = query(DATABASE, cfg.queries['id_from_token'], [token])[0][0]
-    print(incident_id)
-    insert(DATABASE, cfg.update_queries['incidents'], ['32.053016', '34.772589', 'fire', incident_id])
+    token = new_call('+972587030277', 'fire')
+    add_media('./backend/streetview/gsv_0.jpg', token)
+    update_incident('32.053016', '34.772589', token)
     print(query(DATABASE, 'SELECT * FROM incidents')[-1])
 
-    user_id = insert(DATABASE, cfg.insert_queries['users'], ['+33630643415'])
-    incident_id = insert(DATABASE, cfg.insert_queries['incidents'], ['NULL', 'NULL', 'water'])
-    media_id = insert(DATABASE, cfg.insert_queries['media'], ['./backend/streetview/blablabla.jpg', 1])
-
-    token = token_urlsafe()
-    iu_id = insert(DATABASE, cfg.insert_queries['incident_user'], [incident_id, user_id, token])
-
+    token = new_call('+33630643415', 'water')
+    add_media('./backend/streetview/blablabla.jpg', token)
+    update_incident('30', '72', token)
     print(query(DATABASE, 'SELECT * FROM incidents')[-1])
-    incident_id = query(DATABASE, cfg.queries['id_from_token'], [token])[0][0]
-    print(incident_id)
-    query(DATABASE, cfg.update_queries['incidents'], ['30', '72', 'water', incident_id])
-    print(query(DATABASE, 'SELECT * FROM incidents')[-1])
-
-    # print(query(DATABASE, 'SELECT * FROM media')[-1])
-    # print(query(DATABASE, 'SELECT * FROM users')[-1])
-    # print(query(DATABASE, 'SELECT * FROM incidents')[-1])
-    # print(query(DATABASE, 'SELECT * FROM incident_user')[-1])
 
     qry = """SELECT incidents.id, incidents.lat, incidents.lon, incidents.category, incident_user.key, users.phone_number
                  FROM incidents
