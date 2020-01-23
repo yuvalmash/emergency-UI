@@ -179,7 +179,7 @@ def send_new_event():
     events.append(event)
     print('>>>>>>>>', event)
     # TODO add other data to DB
-    sql.new_call(event['phone_number'], event['category'], event['threat'], event['address1'], event['address2'],
+    sql.new_call(event['phone_number'], event['category'], event['life_threat'], event['address1'], event['address2'],
                  event['free_text'], event['token'])
     # TODO invoke sms function with token
     return str(events)
