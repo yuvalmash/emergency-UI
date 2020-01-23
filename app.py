@@ -1,5 +1,6 @@
 from secrets import token_urlsafe
 import json
+
 from flask import Flask, request, jsonify, abort, render_template
 from twilio.rest import Client
 import requests
@@ -132,10 +133,11 @@ def show_param():
 ########################################################################################################################
 @app.route("/")
 def hello():
-    # data = request.get_json(force=True)
-    # token = request.args['token']
-    print(token)
 
+    # data = request.get_json(force=True)
+
+    # token = request.args['token']
+    # print(token)
     return render_template('./user/index.html')
 
 
@@ -152,9 +154,10 @@ def user_response():
     lat = content['lat']
     lon = content['lon']
     wind_speed = content['windSpeed']
-    # token = content['token']
-    # sql.update_incident(lat, lon, wind_speed, token)
-    # sql.add_media(img, token)
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', content['token'])
+    token = content['token']
+    sql.update_incident(lat, lon, wind_speed, token)
+    sql.add_media(img, token)
     return 'Thank you!'
 
 

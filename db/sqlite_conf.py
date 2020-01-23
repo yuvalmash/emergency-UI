@@ -46,4 +46,7 @@ insert_queries = {'incidents': """INSERT INTO incidents (category, life_threat, 
                   }
 update_queries = {'incidents': "UPDATE incidents SET lat=?, lon=?, wind_speed=? WHERE id LIKE ?"}
 
-queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE token=?"}
+queries = {'id_from_token': "SELECT incident_id FROM incident_user WHERE token=?",
+           'get_media': "SELECT data from media WHERE incident_id=?",
+           'get_incident_from_token': "SELECT lat, lon, wind_speed, category, life_threat, address1, address2, free_text, start_time FROM incidents WHERE id=?"
+           }
